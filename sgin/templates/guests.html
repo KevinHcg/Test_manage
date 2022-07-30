@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title%}嘉宾管理{% endblock %}
+{% block maintitle %}<a href="/sgin/add_guest_page" class="btn btn-info navbar-right">添加嘉宾</a>{% endblock %}
+{% block content%}
+  <ul class="list-group">
+    {% for guest in guest_list %}
+      <li class="list-group-item text-center">
+      <a href="/sgin/guests/{{ guest.id }}">{{ guest }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

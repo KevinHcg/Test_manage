@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title%}版本详情页{% endblock %}
+{% block content%}
+  <div class="panel panel-info">
+    <div class="panel-heading"> 版本详情页 </div>
+    <div class="panel-body">
+      <p>版本：{{ version.version_name }}</p>
+
+      <p>关联的项目：
+        {% for event in  version.events.all  %}
+          <a href="/sgin/events/{{ event.id }}">{{ event }}</a>
+        {% endfor %}
+      </p>
+      <p><a href="/sgin/version/" class="btn btn-info">返回版本列表</a></p>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% block content %}
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    {#    {% load static %}#}
+{#    <script src="{% get_static_prefix %}js/jquery-1.12.4.min.js"></script>#}
+
+    <script>
+    $(main);
+    function main(){
+        {#调用函数，发送ajax请求，拿省的数据#}
+        getProData();
+        var $pro=$("#pro");
+        var $city=$("#city");
+        $pro.change(proChange);
+        function getProData(){
+            {#$.get（请求网址，function（data）{}#}
+            {#特点，如果后端返回的是json字符串，data自动转换为js的对象#}
+            $.get('/sgin/get_pro/',function (data){
+                {#console.log(data.d);#}
+                {#let $pro = []#}
+                $.each(data.d,function (idx,val){
+                    console.log('data',val);
+                    var id = val[0];
+                    var name = val[1];
+                    var opt = "<option value="+id+">"+name+"</option>";
+                    {#console.log(opt)#}
+                    {#塞入省级下拉框中#}
+                    {#$pro.push(opt);#}
+                    $pro.append(opt);
+                });
+                {#$("#pro").html($pro)#}
+            })
+        }
+        function proChange(){
+            var pro_id = this.value;
+            $.get('/sgin/get_city/'+pro_id,function (data){
+                console.log(data.d);
+                console.log(45555);
+                var option
+                for(var i=0;i<data.d.length;i++){
+                    var id=data.d[i];
+                    var name=data.d[i];
+                    option+="<option value="+id+">"+name+"</option>";
+                    {#$city.append(option)#}
+                }
+                $city.html(option)
+            });
+        }
+    }
+    </script>
+  <div class="panel panel-info">
+    <div class="panel-heading"> 新增需求计划 </div>
+    <div class="panel-body">
+
+      <form method="post" action="/sgin/add_demand/" enctype="application/x-www-form-urlencoded">
+        {% csrf_token %}
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">项目名称</label>
+          <div class="col-sm-10">
+            <select class="form-control" name="event_ids" id="pro" multiple></select>
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">版本</label>
+          <div class="col-sm-10">
+              <select class="form-control" name="version" id="city" multiple></select>
+          </div>
+        </div>
+
+{#          <div class="form-group">#}
+{#          <label class="col-sm-2 control-label">项目名称</label>#}
+{#          <div class="col-sm-10">#}
+{#            <select class="form-control" name="event_ids" multiple required>#}
+{#              {% for event in events %}#}
+{#                <option value={{ event.id }}>{{ event.name }}</option>#}
+{#              {% endfor %}#}
+{##}
+{#            </select>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#          <div class="form-group">#}
+{#          <label class="col-sm-2 control-label">版本</label>#}
+{#          <div class="col-sm-10">#}
+{#            <select class="form-control" name="version_ids" multiple required>#}
+{#              {% for version in versions %}#}
+{#                <option value={{ version.id }}>{{ version.name }}</option>#}
+{#              {% endfor %}#}
+{##}
+{#            </select>#}
+{#          </div>#}
+{#        </div>#}
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">需求名称</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="name" required>
+          </div>
+        </div>
+
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">优先级</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="priority" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">内容描述</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="describe" required>
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">产品经理</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="product_manager" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">PRD预期开始时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="prd_expected_start_time" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">PRD预期完成时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="prd_expected_completion_time" required>
+          </div>
+        </div>
+{#          --------------------------------------------------------------------------------------#}
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">编写用例人员</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="write_cases" required>
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">用例预期开始时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="cases_expected_start_time" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">用例预期完成时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="cases_expected_completion_time" required>
+          </div>
+        </div>
+{#          ---------------------------------------------------------------------------------------------#}
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">后端开发人员</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="backend_developers" required>
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">后端预期开始时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="backend_expected_start_time" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">后端预期完成时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="backend_expected_completion_time" required>
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">前端开发人员</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="front_end_developer" required>
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">前端预期开始时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="front_end_expected_start_time" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">前端预期完成时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="front_end_expected_completion_time" required>
+          </div>
+        </div>
+
+
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">预期联调开始时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="combined_commissioning_expected_start_time" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">预期联调结束时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="combined_commissioning_expected_completion_time" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">预期提测时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="expected_measure_time" required>
+          </div>
+        </div>
+
+            <div class="form-group">
+          <label class="col-sm-2 control-label">测试人员</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="tester" required>
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">测试预期开始时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="test_expected_start_time" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">测试预期完成时间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="datetime-local" name="test_expected_completion_time" required>
+          </div>
+        </div>
+
+
+        <button class="btn btn-block btn-primary" type="submit">保存</button>
+      </form>
+      {% if error %}
+        <p class="danger"> {{ error }}</p>
+      {% endif %}
+      <p><a href="/sgin/demand" class="btn btn-info">返回列表</a></p>
+    </div>
+  </div>
+{% endblock %}

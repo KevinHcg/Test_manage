@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title%}发布会详情页{% endblock %}
+{% block content%}
+  <div class="panel panel-info">
+    <div class="panel-heading"> 项目详情页 </div>
+    <div class="panel-body">
+
+    <div class="form-group">
+          <label class="col-sm-2 control-label">项目名称</label>
+          <div class="col-sm-10">
+            <p class="form-control" type="text">{{ event.name }}</p>
+          </div>
+        </div>
+
+    <div class="form-group">
+          <label class="col-sm-2 control-label">项目概述</label>
+          <div class="col-sm-10">
+              <textarea class="form-control" name="summary" rows="3" cols="136" maxlength="500">{{ event.summary }}</textarea>
+{#            <input class="form-control" type="text" name="address" required>#}
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label">环境地址</label>
+          <div class="col-sm-10">
+              <textarea class="form-control" name="environment" rows="3" cols="136" maxlength="500">{{ event.environment }}</textarea>
+{#            <input class="form-control" type="text" name="address" required>#}
+          </div>
+        </div>
+{#        <p>项目概述：{{ event.summary }}</p>#}
+{#    <p>环境地址：{{ event.environment }}</p>#}
+{#      <p>创建时间：{{ event.start_time }}</p>#}
+
+    <div class="form-group">
+          <label class="col-sm-2 control-label">状态</label>
+          <div class="col-sm-10">
+              <p class="form-control">{{ event.status }}</p>
+{#            <input class="form-control" type="checkbox" name="status" checked>#}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">创建时间</label>
+          <div class="col-sm-10">
+            <p class="form-control" type="text">{{ event.start_time }}</p>
+          </div>
+        </div>
+
+{#      <form class="form-horizontal" action="/sgin/do_sgin/{{ event.id }}" method="post" enctype="application/x-www-form-urlencoded">#}
+{#        <input type="text" class="form-control" placeholder="请输入手机号" name="phone">#}
+{#        <button type="submit" class="btn btn-block btn-info" >签到</button>#}
+{#        {%csrf_token%}#}
+{#      </form>#}
+      {% if error %}
+        <span class="btn-danger ">{{ error }}</span>
+      {% endif %}
+      <p><a href="/sgin/events" class="btn btn-info">返回项目列表</a></p>
+    </div>
+  </div>
+{% endblock %}

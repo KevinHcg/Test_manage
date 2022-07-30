@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="panel panel-info">
+    <div class="panel-heading"> 新增报告 </div>
+    <div class="panel-body">
+
+      <form method="post" action="/sgin/add_report/" enctype="application/x-www-form-urlencoded">
+        {% csrf_token %}
+
+          <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+    <script>
+    $(main);
+    function main(){
+        {#调用函数，发送ajax请求，拿省的数据#}
+        getProData();
+        var $pro=$("#pro");
+        var $city=$("#city");
+        $pro.change(proChange);
+        function getProData(){
+            {#$.get（请求网址，function（data）{}#}
+            {#特点，如果后端返回的是json字符串，data自动转换为js的对象#}
+            $.get('/sgin/get_pro/',function (data){
+                {#console.log(data.d);#}
+                {#let $pro = []#}
+                $.each(data.d,function (idx,val){
+                    console.log('data',val);
+                    var id = val[0];
+                    var name = val[1];
+                    var opt = "<option value="+id+">"+name+"</option>";
+                    {#console.log(opt)#}
+                    {#塞入省级下拉框中#}
+                    {#$pro.push(opt);#}
+                    $pro.append(opt);
+                });
+                {#$("#pro").html($pro)#}
+            })
+        }
+        function proChange(){
+            var pro_id = this.value;
+            $.get('/sgin/get_city/'+pro_id,function (data){
+                console.log(data.d);
+                console.log(45555);
+                var option
+                for(var i=0;i<data.d.length;i++){
+                    var id=data.d[i];
+                    var name=data.d[i];
+                    option+="<option value="+id+">"+name+"</option>";
+                    {#$city.append(option)#}
+                }
+                $city.html(option)
+            });
+        }
+    }
+    </script>
+
+
+<div class="form-group">
+          <label class="col-sm-2 control-label">报告名称</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="report_name" required>
+          </div>
+        </div>
+
+    <div  class="form-group">
+        <label class="col-sm-2 control-label">项目</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="pro" id="pro" multiple>
+                    <option value="">-------------请选择下列项目-------------</option>
+                </select>
+            </div>
+        </div>
+
+          <div class="form-group">
+              <label class="col-sm-2 control-label">版本号</label>
+              <div class="col-sm-10">
+                  <select class="form-control" name="city" id="city" multiple>
+                      <option value="">-------------请先选择项目,再选择版本-------------</option>
+                  </select>
+              </div>
+          </div>
+
+
+{#      <div class="form-group">#}
+{#          <label class="col-sm-2 control-label">项目名称</label>#}
+{#          <div class="col-sm-10">#}
+{#            <input class="form-control" type="text" name="event_name" required>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{##}
+{#        <div class="form-group">#}
+{#          <label class="col-sm-2 control-label">版本号</label>#}
+{#          <div class="col-sm-10">#}
+{#            <input class="form-control" type="text" name="version_name" required>#}
+{#          </div>#}
+{#        </div>#}
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">测试范围</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="test_range" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">机型（配置）</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="model_configuration" required>
+          </div>
+        </div>
+
+                <div class="form-group">
+          <label class="col-sm-2 control-label">ip地址</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="ip_address" required>
+          </div>
+        </div>
+
+                <div class="form-group">
+          <label class="col-sm-2 control-label">操作系统</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="operating_system" required>
+          </div>
+        </div>
+
+                <div class="form-group">
+          <label class="col-sm-2 control-label">用途及特殊说明</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="instructions" required>
+          </div>
+        </div>
+
+                <div class="form-group">
+          <label class="col-sm-2 control-label">软件及版本</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="software_version" required>
+          </div>
+        </div>
+
+                <div class="form-group">
+          <label class="col-sm-2 control-label">预计空间</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="estimated_space" required>
+          </div>
+        </div>
+
+                <div class="form-group">
+          <label class="col-sm-2 control-label">测试工具</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="testing_tool" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">评估结果</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="assessment_result" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">质量风险分析</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="risk_analysis" required>
+          </div>
+        </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">测试结论</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="test_conclusion" required>
+          </div>
+        </div>
+
+
+        <button class="btn btn-block btn-primary" type="submit">保存</button>
+      </form>
+      {% if error %}
+        <p class="danger"> {{ error }}</p>
+      {% endif %}
+      <p><a href="/sgin/report" class="btn btn-info">返回列表</a></p>
+    </div>
+  </div>
+{% endblock %}

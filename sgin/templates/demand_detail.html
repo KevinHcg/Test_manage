@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% block title%}需求详情页{% endblock %}
+{% block content%}
+        <a href="/sgin/product_revise/{{ demand.id }}" class="btn btn-info navbar-right">产品完成</a>
+        <a href="/sgin/front_end_completion/{{ demand.id }}" class="btn btn-info navbar-right">前端完成</a>
+        <a href="/sgin/backend_completion/{{ demand.id }}" class="btn btn-info navbar-right">后端完成</a>
+        <a href="/sgin/combined_commissioning_completion/{{ demand.id }}" class="btn btn-info navbar-right">联调完成</a>
+    <a href="/sgin/test_completion/{{ demand.id }}" class="btn btn-info navbar-right">测试完成</a>
+
+
+
+    {% if demand.state == '0' %}
+        <a href="/sgin/measure/{{ demand.id }}" class="btn btn-info navbar-right">提测</a>
+    {% elif demand.state == '1' %}
+        <a href="/sgin/single_demand_report/{{ demand.id }}" class="btn btn-info navbar-right">单需求报告</a>
+    {% elif demand.state == '2' %}
+        <a href="/sgin/single_report_detail/{{ demand.id }}" class="btn btn-info navbar-right">报告详情</a>
+    {% endif %}
+  <div class="panel panel-info">
+    <div class="panel-heading"> 需求详情页 </div>
+    <div class="panel-body">
+        <h3>一、需求概况</h3>
+        <h4>关联的项目：
+        {% for event in  demand.events.all  %}
+          <a href="/sgin/events/{{ event.id }}">{{ event }}</a>
+        {% endfor %}
+      </h4>
+      <h4>版本号：{{ demand.version }}</h4>
+      <h4>需求名称：{{ demand.name }}</h4>
+      <h4>内容描述：{{ demand.describe }}</h4>
+
+        <h4>优先级：{{ demand.priority }}</h4>
+
+    <h3>二、产品计划</h3>
+        <br>
+
+        <table border="1">
+    <tr>
+        <th>产品负责人</th>
+        <th>原型PRD预期开始时间</th>
+        <th>原型PRD实际开始时间</th>
+        <th>原型PRD预期结束时间</th>
+        <th>原型PRD实际结束时间</th>
+    </tr>
+
+    <tr>
+        <td>{{ demand.product_manager }}</td>
+        <td>{{ demand.prd_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.prd_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.prd_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.prd_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+    </tr>
+        </table>
+
+    <h4>PRD及原型地址：{{ demand.prd }}</h4>
+
+            <h3>三、用例计划</h3>
+
+    <br>
+
+        <table border="1">
+    <tr>
+        <th>编写人员</th>
+        <th>用例预期开始时间</th>
+        <th>用例实际开始时间</th>
+        <th>用例预期结束时间</th>
+        <th>用例实际结束时间</th>
+    </tr>
+
+    <tr>
+
+        <td>{{ demand.write_cases }}</td>
+        <td>{{ demand.cases_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.cases_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.cases_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.cases_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+    </tr>
+        </table>
+<p>{{ demand.file_name }}<a href="download/{{ demand.file_id }}">点我下载查看用例</a></p>
+
+    <form action="/sgin/upload/{{ demand.id }}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <p>请选择用例上传</p>
+    <input type="file" name="fafafa" />
+    <input type="submit" value="上传" />
+</form>
+
+    <h3>四、开发计划</h3>
+        <br>
+
+        <table border="1">
+    <tr>
+        <th>后端人员</th>
+        <th>后端预期开始时间</th>
+        <th>后端实际开始时间</th>
+        <th>后端预期结束时间</th>
+        <th>后端实际结束时间</th>
+    </tr>
+
+    <tr>
+        <td>{{ demand.backend_developers }}</td>
+        <td>{{ demand.backend_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.backend_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.backend_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.backend_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+
+    </td>
+    </tr>
+        </table>
+
+        <br>
+            <table border="1">
+    <tr>
+
+        <th>前端人员</th>
+        <th>前端预期开始时间</th>
+        <th>前端实际开始时间</th>
+        <th>前端预期结束时间</th>
+        <th>前端实际结束时间</th>
+
+    </tr>
+
+    <tr>
+        <td>{{ demand.front_end_developer }}</td>
+        <td>{{ demand.front_end_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.front_end_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.front_end_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.front_end_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+
+    </td>
+    </tr>
+        </table>
+        <br>
+
+        <table border="1">
+    <tr>
+        <th>预期联调开始时间</th>
+        <th>实际联调开始时间</th>
+        <th>预期联调结束时间</th>
+        <th>实际联调结束时间</th>
+        <th>预期提测时间</th>
+        <th>实际提测时间</th>
+    </tr>
+
+    <tr>
+        <td>{{ demand.combined_commissioning_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.combined_commissioning_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.combined_commissioning_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.combined_commissioning_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.expected_measure_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.measure_time | date:"Y-m-d H:i:s" }}</td>
+    </tr>
+        </table>
+        <br>
+        <h3>五、测试计划</h3>
+
+        <br>
+
+        <table border="1">
+    <tr>
+        <th>测试人员</th>
+
+        <th>测试预期开始时间</th>
+        <th>测试实际开始时间</th>
+        <th>测试预期结束时间</th>
+        <th>测试实际结束时间</th>
+    </tr>
+
+    <tr>
+
+        <td>{{ demand.tester }}</td>
+
+        <td>{{ demand.test_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.test_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.test_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ demand.test_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+    </tr>
+        </table>
+
+
+      <p><a href="/sgin/demand" class="btn btn-info">返回需求管理列表</a></p>
+    </div>
+  </div>
+{% endblock %}

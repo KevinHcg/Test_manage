@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title%}单需求报告详情页{% endblock %}
+{% block content%}
+  <div class="panel panel-info">
+    <div class="panel-heading"> 单需求报告详情页 </div>
+    <div class="panel-body">
+        <p>测试人员：{{ demand.tester }}</p>
+        <p>岗位：{{ demand.position }}</p>
+        <p>耗时：{{ demand.time_consuming }}</p>
+        <p>用例总数：{{ demand.total_cases }}</p>
+        <p>用例有效数：{{ demand.executed_cases }}</p>
+        <p>用例无效数：{{ demand.invalid_cases }}</p>
+        <p>用例通过数：{{ demand.pass_cases }}</p>
+      <p>BUG总数：{{ demand.bug_total }}</p>
+      <p>一级BUG：{{ demand.level_1 }}</p>
+      <p>二级BUG：{{ demand.level_2 }}</p>
+      <p>三级BUG：{{ demand.level_3 }}</p>
+      <p>四级BUG：{{ demand.level_4 }}</p>
+
+      <p>主要问题：{{ demand.main_problems }}</p>
+        <p>优化建议：{{ demand.suggested_optimization }}</p>
+        <p>遗留问题：{{ demand.remaining_problems }}</p>
+        <p>问题等级：{{ demand.problem_level }}</p>
+        <p>问题类型：{{ demand.problem_types }}</p>
+        <p>解决策略：{{ demand.solutions }}</p>
+
+      <p>风险：{{ demand.risk }}</p>
+      <p><a href="/sgin/demand/{{ demand.id }}" class="btn btn-info">返回需求详情页</a></p>
+    </div>
+  </div>
+{% endblock %}

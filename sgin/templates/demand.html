@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title%}需求管理{% endblock %}
+
+{% block maintitle %}
+    <form method="post" action="/sgin/search_demand/" enctype="application/x-www-form-urlencoded">
+    {% csrf_token %}
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    {#    {% load static %}#}
+{#    <script src="{% get_static_prefix %}js/jquery-1.12.4.min.js"></script>#}
+
+    <script>
+    $(main);
+    function main(){
+        {#调用函数，发送ajax请求，拿省的数据#}
+        getProData();
+        var $pro=$("#pro");
+        var $city=$("#city");
+        $pro.change(proChange);
+        function getProData(){
+            {#$.get（请求网址，function（data）{}#}
+            {#特点，如果后端返回的是json字符串，data自动转换为js的对象#}
+            $.get('/sgin/get_pro/',function (data){
+                {#console.log(data.d);#}
+                {#let $pro = []#}
+                $.each(data.d,function (idx,val){
+                    console.log('data',val);
+                    var id = val[0];
+                    var name = val[1];
+                    var opt = "<option value="+id+">"+name+"</option>";
+                    {#console.log(opt)#}
+                    {#塞入省级下拉框中#}
+                    {#$pro.push(opt);#}
+                    $pro.append(opt);
+                });
+                {#$("#pro").html($pro)#}
+            })
+        }
+        function proChange(){
+            var pro_id = this.value;
+            $.get('/sgin/get_city/'+pro_id,function (data){
+                console.log(data.d);
+                console.log(45555);
+                var option
+                for(var i=0;i<data.d.length;i++){
+                    var id=data.d[i];
+                    var name=data.d[i];
+                    option+="<option value="+id+">"+name+"</option>";
+                    {#$city.append(option)#}
+                }
+                $city.html(option)
+            });
+        }
+    }
+    </script>
+
+{#<select name="pro" id="pro">#}
+{#    <option value="">-省份-</option>#}
+{#    <option value="1">-湖南-</option>#}
+{#    <option value="2">-湖北-</option>#}
+{#</select>#}
+{##}
+{##}
+{#<select name="city" id="city">#}
+{#    <option value="">-城市-</option>#}
+{#</select>#}
+
+
+
+{#<select name="area" id="area">#}
+{#    <option value="">-区域-</option>#}
+{#</select>#}
+
+
+    <div class="one">
+        <label class="bbb">请选择项目</label>
+
+            <select class="form-control" name="pro" id="pro" multiple>
+{#              <option value="">-城市-</option>#}
+            </select>
+          </div>
+
+          <div class="two">
+                    <label class="bbb">请选择版本</label>
+            <select class="form-control" name="city" id="city" multiple>
+{#              <option value="">-城市-</option>#}
+
+            </select>
+        </div>
+
+
+
+    <div class="aaa">
+    <button class="btn btn-block btn-primary" type="submit">查询</button>
+    </div>
+    </form>
+    <br>
+    <br>
+<div class="bbb">
+  <a href="/sgin/add_demand_page/" class="btn btn-info navbar-right">添加需求计划</a>
+
+</div>
+{% endblock %}
+{% block content%}
+  <ul class="list-group">
+    {% for demand in demand_list %}
+      <li class="list-group-item text-center">
+      <a href="/sgin/demand/{{ demand.id }}">{{ demand }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+    {# 实现分页标签的代码 #}
+    {# 这里使用 bootstrap 渲染页面 #}
+    <div id="pages" class="text-center" >
+        <nav>
+            <ul class="pagination">
+                <li class="step-links">
+                {% if demand_list.has_previous %}
+                    <a class='active' href="?page={{ demand_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ demand_list.number }} of {{ demand_list.paginator.num_pages }}</span>
+
+                {% if demand_list.has_next %}
+                    <a class='active' href="?page={{ demand_list.next_page_number }}">下一页</a>
+                {% endif %}
+                </li></ul></nav></div>
+{% endblock %}

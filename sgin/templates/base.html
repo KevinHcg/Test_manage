@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta content="haiwen" name="author" />
+  <!-- Bootstrap Styles-->
+  <link href="{% static 'assets/css/bootstrap.css' %} " rel="stylesheet" />
+  <!-- FontAwesome Styles-->
+  <link href="{% static 'assets/css/font-awesome.css'%}" rel="stylesheet" />
+  <!-- Custom Styles-->
+  <link href="{% static 'assets/css/custom-styles.css' %}" rel="stylesheet" />
+
+{#<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>#}
+{#    <!-- 引入element-ui样式 -->#}
+{#    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">#}
+{#    <!-- 引入element-ui组件库 -->#}
+{#    <script src="https://unpkg.com/element-ui/lib/index.js"></script>#}
+  <title>{% block title%}{% endblock %}</title>
+</head>
+
+<body>
+<div id="wrapper">
+  <nav class="navbar navbar-default top-navbar" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand"><i class="icon fa fa-plane"></i> 测试管理系统</a>
+
+      <div id="sideNav" >
+        <i class="fa fa-bars icon"></i>
+      </div>
+    </div>
+
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+          <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+          <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+          </li>
+          <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+          </li>
+          <li class="divider"></li>
+          <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+          </li>
+        </ul>
+        <!-- /.dropdown-user -->
+      </li>
+    </ul>
+  </nav>
+  <!--/. NAV TOP  -->
+  <nav class="navbar-default navbar-side" role="navigation">
+    <div class="sidebar-collapse">
+      <ul class="nav" id="main-menu">
+          <li>
+          <a class="active-menu" href="/sgin/home/"><i class="fa fa-dashboard"></i> 首页</a>
+        </li>
+        <li>
+          <a class="active-menu" href="/sgin/events/"><i class="fa fa-dashboard"></i> 项目管理</a>
+        </li>
+          <li>
+          <a href="/sgin/version/"><i class="fa fa-desktop"></i> 版本管理</a>
+        </li>
+          <li>
+          <a href="/sgin/demand/"><i class="fa fa-desktop"></i> 需求管理</a>
+        </li>
+          <li>
+          <a href="/sgin/report/"><i class="fa fa-desktop"></i> 版本报告</a>
+        </li>
+{#        <li>#}
+{#          <a href="/sgin/guests/"><i class="fa fa-desktop"></i> 嘉宾</a>#}
+{#        </li>#}
+
+      </ul>
+
+    </div>
+
+  </nav>
+  <!-- /. NAV SIDE  -->
+
+  <div id="page-wrapper">
+    <div class="header">
+      <div class="page-header">
+        {% block maintitle %}{% endblock %}
+      </div>
+
+    </div>
+    <div id="page-inner" class="panel-body">
+      {% block content%}
+
+      {% endblock %}
+{#      <footer><p>Author:haiwen.  <a href="https://ke.qq.com/course/3135766" target="_blank">松勤测试开发课程</a></p>#}
+      </footer>
+    </div>
+    <!-- /. PAGE INNER  -->
+
+  </div>
+  <!-- /. PAGE WRAPPER  -->
+</div>
+
+
+<!-- jQuery Js -->
+<script src="{% static 'assets/js/jquery-1.10.2.js' %}"></script>
+<!-- Bootstrap Js -->
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+<!-- Custom Js -->
+<script src="{% static 'assets/js/custom-scripts.js' %}"></script>
+<script>
+  $(document).ready(
+    $('#main-menu>li>a').each(function (){
+      $(this).attr('class',''); //先取消选中
+      let current_href = window.location.pathname
+      if(current_href.indexOf($(this).attr('href'))!== -1 ){
+        $(this).attr('class','active-menu');
+      }
+    }),
+  )
+</script>
+
+</body>
+
+</html>

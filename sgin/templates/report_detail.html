@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% block title%}报告详情{% endblock %}
+{% block content%}
+  <div class="panel panel-info">
+    <div class="panel-heading"> 报告详情页 </div>
+    <div class="panel-body">
+      <H1>【{{ report.report_name }}】</H1>
+      {% for t in event_name %}
+        <p>项目名称：{{ t.name }}</p>
+    {% endfor %}
+      <p>版本号：{{ report.version_name }}</p>
+      <H2>一、测试任务</H2>
+
+     <p>1. 测试范围：{{ report.test_range }}</p>
+        <p>2. 测试目标：{{ report.version_name }}</p>
+
+            <p>3. 用例进度情况：</p>
+         <table border="1">
+    <tr>
+        <th>需求名称</th>
+        <th>用例预期开始时间</th>
+        <th>用例实际开始时间</th>
+        <th>用例预期结束时间</th>
+        <th>用例实际结束时间</th>
+        <th>编写人员</th>
+    </tr>
+    {% for i in demand %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.cases_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ i.cases_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ i.cases_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ i.cases_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+
+        <td>{{ i.write_cases }}</td>
+
+    </tr>
+    {% endfor %}
+
+</table>
+        <br>
+        <p>4. 测试进度情况：</p>
+         <table border="1">
+    <tr>
+        <th>需求名称</th>
+        <th>测试预期开始时间</th>
+        <th>测试实际开始时间</th>
+        <th>测试预期结束时间</th>
+        <th>测试实际结束时间</th>
+        <th>测试人员</th>
+        <th>岗位</th>
+        <th>耗时</th>
+    </tr>
+    {% for i in demand %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.test_expected_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ i.test_actual_start_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ i.test_expected_completion_time | date:"Y-m-d H:i:s" }}</td>
+        <td>{{ i.test_actual_completion_time | date:"Y-m-d H:i:s" }}</td>
+
+        <td>{{ i.tester }}</td>
+        <td>{{ i.position }}</td>
+        <td>{{ i.time_consuming }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+        <H2>二、测试概述</H2>
+     <br>
+    <p>1. 测试环境概述（服务器+客户端）</p>
+        <table border="1">
+    <tr>
+        <th>机型（配置）</th>
+        <th>IP地址</th>
+        <th>操作系统</th>
+        <th>用途及特殊说明</th>
+        <th>软件及版本</th>
+        <th>预计空间</th>
+    </tr>
+            {% for i in demand %}
+    <tr>
+
+        <td>{{ i.model_configuration }}</td>
+        <td>{{ i.ip_address }}</td>
+        <td>{{ i.operating_system }}</td>
+        <td>{{ i.instructions }}</td>
+        <td>{{ i.software_version }}</td>
+        <td>{{ i.estimated_space }}</td>
+    </tr>
+            {% endfor %}
+        </table>
+    <p>2. 测试工具：{{ report.testing_tool }}</p>
+
+        <H2>三、测试结果及分析</H2>
+        <br>
+    <p>1. 测试用例通过情况</p>
+        <table border="1">
+    <tr>
+        <th>需求名称</th>
+        <th>用例总数</th>
+        <th>用例已执行数</th>
+        <th>用例无效数</th>
+        <th>用例通过数</th>
+{#        <th>用例通过率</th>#}
+
+    </tr>
+            {% for i in demand %}
+    <tr>
+
+        <td>{{ i.name }}</td>
+        <td>{{ i.total_cases }}</td>
+        <td>{{ i.executed_cases }}</td>
+        <td>{{ i.invalid_cases }}</td>
+        <td>{{ i.pass_cases }}</td>
+{#        <td>{% widthratio {{ i.pass_cases }} {{ i.total_cases }} 1 %}</td>#}
+    </tr>
+            {% endfor %}
+
+
+</table>
+{#        <H2>四、测试BUG统计</H2>#}
+    <p>2. 缺陷统计情况</p>
+{#        <br>#}
+        <table border="1">
+    <tr>
+        <th>需求名称</th>
+        <th>BUG总数</th>
+        <th>一级BUG数</th>
+        <th>二级BUG数</th>
+        <th>三级BUG数</th>
+        <th>四级BUG数</th>
+        <th>主要问题</th>
+        <th>优化建议</th>
+        <th>风险</th>
+    </tr>
+    {% for i in demand %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.bug_total }}</td>
+        <td>{{ i.level_1 }}</td>
+        <td>{{ i.level_2 }}</td>
+        <td>{{ i.level_3 }}</td>
+        <td>{{ i.level_4 }}</td>
+        <td>{{ i.main_problems }}</td>
+        <td>{{ i.suggested_optimization }}</td>
+        <td>{{ i.risk }}</td>
+    </tr>
+        {% endfor %}
+
+
+</table>
+{#        <H2>五、遗留问题清单</H2>#}
+    <p>3. 预留问题清单</p>
+{#        <br>#}
+        <table border="1">
+    <tr>
+        <th>需求名称</th>
+        <th>问题描述</th>
+        <th>问题等级</th>
+        <th>问题类型</th>
+        <th>解决对策</th>
+    </tr>
+    {% for i in demand %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.remaining_problems }}</td>
+        <td>{{ i.problem_level }}</td>
+        <td>{{ i.problem_types }}</td>
+        <td>{{ i.solutions }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+        <H2>四、测试结论与建议</H2>
+
+        <p>1. 质量风险分析：{{ report.risk_analysis }}</p>
+        <p>2. 测试结论：{{ report.test_conclusion }}</p>
+
+      <p><a href="/sgin/report/" class="btn btn-info">返回报告列表</a></p>
+    </div>
+  </div>
+{% endblock %}

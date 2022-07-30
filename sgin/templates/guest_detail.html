@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title%}发布会详情页{% endblock %}
+{% block content%}
+  <div class="panel panel-info">
+    <div class="panel-heading"> 嘉宾详情页 </div>
+    <div class="panel-body">
+      <p>名称：{{ guest.name }}</p>
+      <p>手机号：{{ guest.phone }}</p>
+      <p>邮箱：{{ guest.email }}</p>
+{#      <p>加入时间：{{ guest.join_time }}</p>#}
+      <p>关联发布会：
+        {% for event in  guest.events.all  %}
+          <a href="/sgin/events/{{ event.id }}">{{ event }}</a>
+        {% endfor %}
+      </p>
+      <p><a href="/sgin/guests/" class="btn btn-info">返回嘉宾列表</a></p>
+    </div>
+  </div>
+{% endblock %}

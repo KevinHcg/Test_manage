@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title%}版本管理{% endblock %}
+{% block maintitle %}<a href="/sgin/add_version_page" class="btn btn-info navbar-right">添加版本</a>{% endblock %}
+{% block content%}
+  <ul class="list-group">
+    {% for version in version_list %}
+      <li class="list-group-item text-center">
+      <a href="/sgin/version/{{ version.id }}">{{ version }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+    {# 实现分页标签的代码 #}
+    {# 这里使用 bootstrap 渲染页面 #}
+    <div id="pages" class="text-center" >
+        <nav>
+            <ul class="pagination">
+                <li class="step-links">
+                {% if version_list.has_previous %}
+                    <a class='active' href="?page={{ version_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ version_list.number }} of {{ version_list.paginator.num_pages }}</span>
+
+                {% if version_list.has_next %}
+                    <a class='active' href="?page={{ version_list.next_page_number }}">下一页</a>
+                {% endif %}
+                </li></ul></nav></div>
+{% endblock %}
